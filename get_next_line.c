@@ -6,31 +6,42 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:42:32 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/18 15:01:56 by julian           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:13:53 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*prepare_output(char *text)
+static char *get_temp(char *text, int len_line)
 {
-	char		*line;
-	static char	*temp;
-	int			i;
-	int			j;
-	int			k;
-	int			l;
-	char		nl[2];
+	char	*temp;
+	int		j;
+	int		k;
+	int		l;
 
-	if (temp)
-		text = ft_strjoin2(temp, text);
-	if (ft_strlen(text) == 0)
-	{
-		free(text);
+	if (text[len_line] == '\0')
+		k = len_line;
+	else
+		k = len_line + 1;
+	j = 0;
+	l = k;
+	while (text[k++] != '\0')
+		j++;
+	temp = (char *)malloc(sizeof(char) * j + 1);
+	if (temp == NULL)
 		return (NULL);
-	}
-	nl[0] = '\n';
-	nl[1] = '\0';
+	j = 0;
+	while (text[l] != '\0')
+		temp[j++] = text[l++];
+	temp[j] = '\0';
+	return (temp);
+}
+
+static char	*get_line(char *text)
+{
+	char	*line;
+	int		i;
+
 	i = 0;
 	while (text[i] != '\n' && text[i] != '\0')
 		i++;
@@ -44,24 +55,26 @@ static char	*prepare_output(char *text)
 		i++;
 	}
 	line[i] = '\0';
-	if (text[i] == '\0')
-		k = i;
-	else
-		k = i + 1;
-	j = 0;
-	l = k;
-	while (text[k++] != '\0')
-		j++;
-	temp = (char *)malloc(sizeof(char) * j + 1);
-	if (temp == NULL)
+	return (line);
+}
+
+static char	*output(char *text)
+{
+	char		*line;
+	static char	*temp;
+
+	if (temp)
+		text = ft_strjoin2(temp, text);
+	if (ft_strlen(text) == 0)
+	{
+		free(text);
 		return (NULL);
-	j = 0;
-	while (text[l] != '\0')
-		temp[j++] = text[l++];
-	temp[j] = '\0';
+	}
+	line = get_line(text);
+	temp = get_temp(text, ft_strlen(line));
 	free(text);
-	if (text[i] == '\n')
-		return (ft_strjoin(line, nl));
+	if (text[ft_strlen(line)] == '\n')
+		return (ft_strjoin(line, "\n"));
 	else
 	{
 		free(temp);
@@ -69,7 +82,6 @@ static char	*prepare_output(char *text)
 		return (line);
 	}
 }
-
 
 char	*get_next_line(int fd)
 {
@@ -96,7 +108,7 @@ char	*get_next_line(int fd)
 			buff_size = read(fd, buffer, BUFFER_SIZE);
 		}
 	}
-	return (prepare_output(text));
+	return (output(text));
 }
 
 int	main(void)
