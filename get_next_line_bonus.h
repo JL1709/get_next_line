@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:40:21 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/18 16:52:28 by julian           ###   ########.fr       */
+/*   Updated: 2021/07/20 09:42:38 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
-# define MAX_FD 1024 + 1
+# define MAX_FD 1025
 
 # include <stdlib.h>
 # include <unistd.h>

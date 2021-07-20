@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:42:32 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/18 18:29:13 by julian           ###   ########.fr       */
+/*   Updated: 2021/07/20 09:41:53 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static char *get_temp(char *text, int len_line)
+static char	*get_temp(char *text, int len_line)
 {
 	char	*temp;
 	int		j;
@@ -58,7 +58,7 @@ static char	*get_line(char *text)
 	return (line);
 }
 
-static	int check_input(int fd, char *text)
+static int	check_input(int fd, char *text)
 {
 	if (fd < 0)
 	{
