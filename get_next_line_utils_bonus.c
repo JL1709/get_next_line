@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 16:40:57 by julian            #+#    #+#             */
-/*   Updated: 2021/07/18 17:13:01 by julian           ###   ########.fr       */
+/*   Updated: 2021/07/20 13:38:30 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	unsigned char	*ptr;
+	size_t			n_bzero;
+	int				i;
+
+	ptr = malloc(count * size);
+	n_bzero = count * size;
+	if (ptr != 0)
+	{
+		i = 0;
+		while (n_bzero--)
+			ptr[i++] = '\0';
+		return (ptr);
+	}
+	return (0);
+}
 
 char	*ft_strchr(const char *s, int c)
 {

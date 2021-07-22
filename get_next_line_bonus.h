@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:40:21 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/20 09:42:38 by jludt            ###   ########.fr       */
+/*   Updated: 2021/07/20 13:38:56 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
+void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin2(char *s1, char *s2);

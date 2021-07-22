@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:42:32 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/20 09:41:53 by jludt            ###   ########.fr       */
+/*   Updated: 2021/07/20 16:37:39 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ static char	*output(char *text, int fd)
 
 char	*get_next_line(int fd)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	char		*text;
 	int			buff_size;
 
-	text = (char *)malloc(sizeof(char) * 1);
-	if (text == NULL || BUFFER_SIZE <= 0)
+	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	text = ft_calloc(1, 1);
+	if (text == NULL || buffer == NULL || BUFFER_SIZE <= 0)
 		return (NULL);
-	text[0] = '\0';
 	buff_size = read(fd, buffer, BUFFER_SIZE);
 	while (buff_size > 0)
 	{
@@ -123,13 +123,14 @@ char	*get_next_line(int fd)
 			buff_size = read(fd, buffer, BUFFER_SIZE);
 		}
 	}
+	free(buffer);
 	return (output(text, fd));
 }
 
 // int	main(void)
 // {
-// 	int	i = open("test.txt", O_RDONLY);
-// 	for (int j = 0; j < 5; j++)
+// 	int	i = open("dracula.txt", O_RDONLY);
+// 	for (int j = 0; j < 16000; j++)
 // 	{
 // 		printf("%s", get_next_line(i));
 // 	}

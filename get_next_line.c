@@ -6,35 +6,36 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:42:32 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/20 09:41:25 by jludt            ###   ########.fr       */
+/*   Updated: 2021/07/22 08:59:19 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*get_temp(char *text, int len_line)
+static char	*get_temp(char *temp_old, int len_line)
 {
-	char	*temp;
+	char	*temp_new;
 	int		j;
 	int		k;
 	int		l;
 
-	if (text[len_line] == '\0')
+	if (temp_old[len_line] == '\0')
 		k = len_line;
 	else
 		k = len_line + 1;
 	j = 0;
 	l = k;
-	while (text[k++] != '\0')
+	while (temp_old[k++] != '\0')
 		j++;
-	temp = (char *)malloc(sizeof(char) * j + 1);
-	if (temp == NULL)
+	temp_new = (char *)malloc(sizeof(char) * j + 1);
+	if (temp_new == NULL)
 		return (NULL);
 	j = 0;
-	while (text[l] != '\0')
-		temp[j++] = text[l++];
-	temp[j] = '\0';
-	return (temp);
+	while (temp_old[l] != '\0')
+		temp_new[j++] = temp_old[l++];
+	temp_new[j] = '\0';
+	free(temp_old);
+	return (temp_new);
 }
 
 static char	*get_line(char *text)
@@ -58,23 +59,33 @@ static char	*get_line(char *text)
 	return (line);
 }
 
+static char	*free_temp(char **temp)
+{
+	free(*temp);
+	*temp = NULL;
+	return (NULL);
+}
+
 static char	*output(char *text)
 {
 	char		*line;
 	static char	*temp;
 
-	if (temp)
-		text = ft_strjoin2(temp, text);
-	if (ft_strlen(text) == 0)
-	{
-		free(text);
+	if (temp == NULL)
+		temp = ft_calloc(1, 1);
+	if (temp == NULL)
 		return (NULL);
-	}
-	line = get_line(text);
-	temp = get_temp(text, ft_strlen(line));
+	if (ft_strlen(text) > 0)
+		temp = ft_strjoin(temp, text);
 	free(text);
-	if (text[ft_strlen(line)] == '\n')
+	if (ft_strlen(temp) == 0)
+		return (free_temp(&temp));
+	line = get_line(temp);
+	if (temp[ft_strlen(line)] == '\n')
+	{
+		temp = get_temp(temp, ft_strlen(line));
 		return (ft_strjoin(line, "\n"));
+	}
 	else
 	{
 		free(temp);
@@ -85,14 +96,14 @@ static char	*output(char *text)
 
 char	*get_next_line(int fd)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	char		*text;
 	int			buff_size;
 
-	text = (char *)malloc(sizeof(char) * 1);
-	if (text == NULL || BUFFER_SIZE <= 0)
+	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	text = ft_calloc(1, 1);
+	if (text == NULL || buffer == NULL || BUFFER_SIZE <= 0)
 		return (NULL);
-	text[0] = '\0';
 	buff_size = read(fd, buffer, BUFFER_SIZE);
 	while (buff_size > 0)
 	{
@@ -108,16 +119,187 @@ char	*get_next_line(int fd)
 			buff_size = read(fd, buffer, BUFFER_SIZE);
 		}
 	}
+	free(buffer);
 	return (output(text));
 }
 
 // int	main(void)
 // {
-// 	int	i = open("test.txt", O_RDONLY);
-// 	for (int j = 0; j < 5; j++)
+// 	int	i;
+// 	char *str;
+
+// 	i = open("dracula.txt", O_RDONLY);
+// 	while ((str = get_next_line(i)))
 // 	{
-// 		printf("%s", get_next_line(i));
+// 		printf("%s",str);
+// 		free(str);
+// 		str = NULL;
 // 	}
 // 	close(i);
+
+	// printf("empty\n");
+	// i = open("tests/empty", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);	
+	// printf("\n");
+	
+	// printf("nl\n");
+	// i = open("tests/nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+
+	// printf("41_no_nl\n");
+	// i = open("tests/41_no_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("41_with_nl\n");
+	// i = open("tests/41_with_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("42_no_nl\n");
+	// i = open("tests/42_no_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("42_with_nl\n");
+	// i = open("tests/42_with_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("43_no_nl\n");
+	// i = open("tests/43_no_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("43_with_nl\n");
+	// i = open("tests/43_with_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("multiple_nlx5\n");
+	// i = open("tests/multiple_nlx5", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("multiple_line_no_nl\n");
+	// i = open("tests/multiple_line_no_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("multiple_line_with_nl\n");
+	// i = open("tests/multiple_line_with_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+	
+	// printf("alternate_line_nl_no_nl\n");
+	// i = open("tests/alternate_line_nl_no_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+
+	// printf("alternate_line_nl_with_nl\n");
+	// i = open("tests/alternate_line_nl_with_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	
+	// printf("\n");
+	
+	// printf("big_line_no_nl\n");
+	// i = open("tests/big_line_no_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+	// close(i);
+	// printf("\n");
+
+	// printf("big_line_with_nl\n");
+	// i = open("tests/big_line_with_nl", O_RDONLY);
+	// while ((str = get_next_line(i)))
+	// {
+	// 	printf("%s",str);
+	// 	free(str);
+	// 	str = NULL;
+	// }
+// 	// close(i);
+	
 // 	return (0);
 // }
