@@ -9,35 +9,35 @@ This repo provides a get_next_line() function that can read content line by line
 git clone git@github.com:JL1709/get_next_line.git
 ```
 
-#### 2) Execute Makfile (creates library file "libftprintf.a")
-```
-cd get_next_line/
-make
-```
-
-#### 3)  Run program with library
+#### 2)  Run program
 Include header file to your code
 ```
-#include "pathToPrintfFolder"/ft_printf.h
+#include "pathToGetNextLineFolder/get_next_line.h"
 ```
-For example (main.c included in repo for test cases):
+For example (main.c and .txt-file (dracula.txt) included in repo for test cases):
 ```ruby
-#include <stdio.h>
-#include "ft_printf.h"
+#include "get_next_line.h"
 
-int main(void)
+int	main(void)
 {
-	char c[5] = {'H', 'e', 'l', 'l', 'o'};
-	char *src = "world";
-	ft_printf("%c%c%c%c%c, %s!\n", c[0], c[1], c[2], c[3], c[4], src);
-	
+	int	i;
+	char *str;
+
+	i = open("dracula.txt", O_RDONLY);
+	while ((str = get_next_line(i)))
+	{
+		printf("%s",str);
+		free(str);
+		str = NULL;
+	}
+	close(i);
 	return (0);
 }
 ```
 
-Compile your code with library file, e.g.
+Compile your code with desired buffer size
 ```
-gcc main.c "pathToPrintfFolder"/libft.a
+gcc -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line_utils.c
 ```
 
 Run executable
