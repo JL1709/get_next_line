@@ -22,9 +22,9 @@ For example:
 int	main(void)
 {
 	int	i;
-	char *str;
+	char	*str;
 
-	i = open("dracula.txt", O_RDONLY);
+	i = open("demo.txt", O_RDONLY);
 	while ((str = get_next_line(i)))
 	{
 		printf("%s",str);
@@ -46,4 +46,4 @@ Run executable
 ./a.out
 ```
 
-demo.c and .txt-file (dracula.txt) included in repo for test cases):
+demo.c and demo.txt provided for testing.
