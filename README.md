@@ -1,4 +1,4 @@
-# get_next_line
+# get_next_line()
 
 This repo provides a get_next_line() function that can read content line by line (e.g. from a file or stdin).
 Tested on macOS Monterey.
