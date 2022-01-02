@@ -45,7 +45,7 @@ Run executable
 ```
 ./a.out
 ```
-Compile with get_next_line_bonus.c and get_next_line_utils_bonus.c and include get_next_line.h to be able to manage multiple file descriptors.  
+Compile with get_next_line_bonus.c and get_next_line_utils_bonus.c and include get_next_line_bonus.h to be able to manage multiple file descriptors.  
 For example, if the file descriptors 3, 4 and 5 are accessible for reading, then you can
 call get_next_line once on 3, once on 4, once again on 3 then once on 5 etc. without losing the reading thread on each of the descriptors.  
 demo.c and demo.txt provided for testing.
