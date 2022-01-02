@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:42:32 by jludt             #+#    #+#             */
-/*   Updated: 2021/07/20 16:37:39 by jludt            ###   ########.fr       */
+/*   Updated: 2022/01/02 13:41:07 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,3 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (output(text, fd));
 }
-
-// int	main(void)
-// {
-// 	int	i = open("dracula.txt", O_RDONLY);
-// 	for (int j = 0; j < 16000; j++)
-// 	{
-// 		printf("%s", get_next_line(i));
-// 	}
-// 	close(i);
-// 	return (0);
-// }
