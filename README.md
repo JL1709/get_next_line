@@ -1,6 +1,7 @@
 # get_next_line
 
 This repo provides a get_next_line() function that can read content line by line (e.g. from a file or stdin).
+Tested on macOS Monterey.
 
 ## Installation
 
@@ -14,7 +15,7 @@ Include header file to your code
 ```
 #include "pathToGetNextLineFolder/get_next_line.h"
 ```
-For example (main.c and .txt-file (dracula.txt) included in repo for test cases):
+For example:
 ```ruby
 #include "get_next_line.h"
 
@@ -37,10 +38,12 @@ int	main(void)
 
 Compile your code with desired buffer size
 ```
-gcc -D BUFFER_SIZE=42 main.c get_next_line.c get_next_line_utils.c
+gcc -D BUFFER_SIZE=1 demo.c get_next_line.c get_next_line_utils.c
 ```
 
 Run executable
 ```
 ./a.out
 ```
+
+demo.c and .txt-file (dracula.txt) included in repo for test cases):
